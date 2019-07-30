@@ -1,0 +1,8 @@
+{
+  "name": "bakery",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/tom-curphey/bakery.git",
+  "author": "muppet-training <tomcurphey12@gmail.com>",
+  "license": "MIT"
+}
