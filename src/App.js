@@ -194,33 +194,21 @@ class App extends Component {
 
   updateProductData = result => {
     let data = result.data;
-    // Check data keys match required data
-    let checkData = false;
-    for (let index = 0; index < data.length; index++) {
-      const row = data[index];
-      let keys = Object.keys(row);
-      if (['name', 'code', 'packs'].includes(keys) > -1) {
-        checkData = true;
-      } else {
-        checkData = false;
-      }
-    }
-
-    if (!checkData) {
-      this.setState({
-        errorMsg: {
-          product: "File Columns titles must be 'Name','Code','Packs'"
-        },
-        loading: false,
-        csvProductFile: null
-      });
-      return;
-    }
 
     if (!isEmpty(data)) {
+      let checkData = false;
       const updatedProductData = data.map(d => {
         // Convert uData column titles into lowercased keys
         const lowercasedKeysData = convertKeysToLowerCase(d);
+
+        // Check data keys match required data
+        let keys = Object.keys(lowercasedKeysData);
+        if (keys.indexOf('name', 'code', 'packs') > -1) {
+          checkData = true;
+        } else {
+          checkData = false;
+        }
+
         // Convert packs into into an array of data separating the quanity & costs in each order
         let uPacksData = [];
         if (!isEmpty(lowercasedKeysData.packs)) {
@@ -242,6 +230,21 @@ class App extends Component {
         }
         return null;
       });
+
+      console.log('Check', checkData);
+
+      if (!checkData) {
+        this.setState({
+          errorMsg: {
+            product:
+              "File Columns titles must be 'Name','Code','Packs'"
+          },
+          loading: false,
+          csvProductFile: null
+        });
+        return;
+      }
+
       this.setState({
         errorMsg: {},
         productFileData: updatedProductData
@@ -256,35 +259,32 @@ class App extends Component {
   updateOrderData = result => {
     let data = result.data;
 
-    // Check data keys match required data
-    let checkData = false;
-    for (let index = 0; index < data.length; index++) {
-      const row = data[index];
-      let keys = Object.keys(row);
-      if (['quantity', 'code', 'packs'].includes(keys) > -1) {
-        checkData = true;
-      } else {
-        checkData = false;
-      }
-    }
-
-    if (!checkData) {
-      this.setState({
-        errorMsg: {
-          order: "File Columns titles must be 'Quantity','Code'"
-        },
-        loading: false,
-        csvOrderFile: null
-      });
-      return;
-    }
-
     if (!isEmpty(data)) {
+      let checkData = false;
       const updatedProductData = data.map(d => {
         // Convert uData column titles into lowercased keys
         const lowercasedKeysData = convertKeysToLowerCase(d);
+        // Check data keys match required data
+        let keys = Object.keys(lowercasedKeysData);
+        if (keys.indexOf('quantity', 'code') > -1) {
+          checkData = true;
+        } else {
+          checkData = false;
+        }
         return lowercasedKeysData;
       });
+      console.log('Check', checkData);
+
+      if (!checkData) {
+        this.setState({
+          errorMsg: {
+            order: "File Columns titles must be 'Quantity','Code'"
+          },
+          loading: false,
+          csvProductFile: null
+        });
+        return;
+      }
       this.setState({
         errorMsg: {},
         orderFileData: updatedProductData
