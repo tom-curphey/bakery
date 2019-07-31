@@ -5,6 +5,7 @@
 1. `git clone https://github.com/tom-curphey/bakery.git`
 2. `yarn install`
 3. `yarn start`
+4. Use csv files in the `csvFiles` folder to upload data into web app
 
 ### Deployed App
 
