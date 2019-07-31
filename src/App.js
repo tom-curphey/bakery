@@ -13,39 +13,6 @@ class App extends Component {
     this.state = {
       csvProductFile: null,
       csvOrderFile: null,
-      // productFileData: [
-      //   {
-      //     code: 'VS5',
-      //     name: 'Vegemite Scroll',
-      //     packs: [
-      //       { cost: '6.99', quantity: '3' },
-      //       { cost: '8.99', quantity: '5' }
-      //     ]
-      //   },
-      //   {
-      //     code: 'MB11',
-      //     name: 'Blueberry Muffin',
-      //     packs: [
-      //       { cost: '9.95', quantity: '2' },
-      //       { cost: '16.95', quantity: '5' },
-      //       { cost: '24.95', quantity: '8' }
-      //     ]
-      //   },
-      //   {
-      //     code: 'CF',
-      //     name: 'Croissant',
-      //     packs: [
-      //       { cost: '5.95', quantity: '3' },
-      //       { cost: '9.95', quantity: '5' },
-      //       { cost: '16.99', quantity: '9' }
-      //     ]
-      //   }
-      // ],
-      // orderFileData: [
-      //   { code: 'VS5', quantity: '10' },
-      //   { code: 'MB11', quantity: '14' },
-      //   { code: 'CF', quantity: '13' }
-      // ],
       productFileData: [],
       orderFileData: [],
       packsToDelivery: [],
@@ -57,12 +24,9 @@ class App extends Component {
 
   componentDidMount() {
     const {
-      csvProductFile,
-      csvOrderFile,
       productFileData,
       orderFileData,
       packsToDelivery,
-      currentFile,
       loading
     } = this.state;
 
@@ -72,7 +36,6 @@ class App extends Component {
       isEmpty(packsToDelivery) &&
       loading === false
     ) {
-      console.log('READY', orderFileData);
       const resultsData = [];
 
       for (let i = 0; i < orderFileData.length; i++) {
@@ -84,9 +47,6 @@ class App extends Component {
           if (item.code === product.code) {
             const model = createModel(product, item.quantity);
             let results = solver.Solve(model);
-            console.log('results', results);
-            console.log('item.quantity', item);
-            console.log('product', product);
             const rData = {
               ...results,
               code: item.code,
@@ -117,8 +77,6 @@ class App extends Component {
     } = this.state;
 
     if (!loading && prevState.csvProductFile !== csvProductFile) {
-      // console.log('hit');
-
       this.setState({
         loading: true,
         currentFile: 'product'
@@ -131,7 +89,6 @@ class App extends Component {
       });
     }
     if (prevState.currentFile !== currentFile) {
-      console.log('hit1');
       this.importCSV();
     }
 
@@ -152,7 +109,6 @@ class App extends Component {
       isEmpty(packsToDelivery) &&
       loading === false
     ) {
-      // console.log('READY', orderFileData);
       const resultsData = [];
 
       for (let i = 0; i < orderFileData.length; i++) {
@@ -164,9 +120,6 @@ class App extends Component {
           if (item.code === product.code) {
             const model = createModel(product, item.quantity);
             let results = solver.Solve(model);
-            // console.log('results', results);
-            // console.log('item.quantity', item);
-            // console.log('product', product);
             const rData = {
               ...results,
               code: item.code,
@@ -186,10 +139,9 @@ class App extends Component {
   }
 
   handleProductUpload = event => {
-    console.log('event.target.files[0]', event.target.files[0].type);
     if (
-      event.target.files[0].type === 'text/csv' &&
-      !isEmpty(event.target.files)
+      !isEmpty(event.target.files) &&
+      event.target.files[0].type === 'text/csv'
     ) {
       this.setState({
         csvProductFile: event.target.files[0],
@@ -206,10 +158,9 @@ class App extends Component {
   };
 
   handleOrderUpload = event => {
-    console.log('event.target.files[0]', event.target.files[0].type);
     if (
-      event.target.files[0].type === 'text/csv' &&
-      !isEmpty(event.target.files)
+      !isEmpty(event.target.files) &&
+      event.target.files[0].type === 'text/csv'
     ) {
       this.setState({
         csvOrderFile: event.target.files[0],
@@ -248,7 +199,6 @@ class App extends Component {
     for (let index = 0; index < data.length; index++) {
       const row = data[index];
       let keys = Object.keys(row);
-      console.log('keys', keys);
       if (['name', 'code', 'packs'].includes(keys) > -1) {
         checkData = true;
       } else {
@@ -257,7 +207,6 @@ class App extends Component {
     }
 
     if (!checkData) {
-      console.log('Error');
       this.setState({
         errorMsg: {
           product: "File Columns titles must be 'Name','Code','Packs'"
@@ -312,7 +261,6 @@ class App extends Component {
     for (let index = 0; index < data.length; index++) {
       const row = data[index];
       let keys = Object.keys(row);
-      console.log('keys', keys);
       if (['quantity', 'code', 'packs'].includes(keys) > -1) {
         checkData = true;
       } else {
@@ -321,7 +269,6 @@ class App extends Component {
     }
 
     if (!checkData) {
-      console.log('Error');
       this.setState({
         errorMsg: {
           order: "File Columns titles must be 'Quantity','Code'"
@@ -351,9 +298,7 @@ class App extends Component {
 
   displayPackTypes = orderObj => {
     const objKeys = Object.keys(orderObj);
-    // console.log('objKeys', objKeys);
     let filteredKeys = objKeys.filter(key => {
-      // console.log('key', key);
       return key.includes('pack');
     });
     let packTypes = filteredKeys.map((packType, i) => {
@@ -365,17 +310,20 @@ class App extends Component {
           </p>
         );
       }
+      return null;
     });
 
     return packTypes;
   };
 
   render() {
-    const { packsToDelivery, errorMsg } = this.state;
-
+    const {
+      packsToDelivery,
+      errorMsg,
+      productFileData,
+      orderFileData
+    } = this.state;
     let shippingInfo = null;
-
-    console.log('state', this.state);
 
     if (!isEmpty(packsToDelivery)) {
       shippingInfo = packsToDelivery.map(order => {
@@ -389,6 +337,15 @@ class App extends Component {
           </li>
         );
       });
+    }
+
+    let inputProductSuccessClass = '';
+    let inputProductOrderClass = '';
+    if (!isEmpty(productFileData)) {
+      inputProductSuccessClass = 'success';
+    }
+    if (!isEmpty(orderFileData)) {
+      inputProductOrderClass = 'success';
     }
 
     return (
@@ -406,7 +363,10 @@ class App extends Component {
                   type="file"
                   onChange={this.handleProductUpload}
                 />
-                <label htmlFor="file-upload-product">
+                <label
+                  htmlFor="file-upload-product"
+                  className={inputProductSuccessClass}
+                >
                   Upload Product Data CSV. File
                 </label>
               </div>
@@ -424,7 +384,10 @@ class App extends Component {
                   name="file"
                   onChange={this.handleOrderUpload}
                 />
-                <label htmlFor="file-upload-order">
+                <label
+                  htmlFor="file-upload-order"
+                  className={inputProductOrderClass}
+                >
                   Upload Purchase Order CSV. File
                 </label>
               </div>

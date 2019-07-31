@@ -49,11 +49,6 @@ export const createModel = (product, quantity) => {
       variables: variables,
       ints: ints
     };
-    console.log('variables', variables);
-    console.log('model', model);
     return model;
   }
-
-  console.log('item', product);
-  console.log('product', quantity);
 };

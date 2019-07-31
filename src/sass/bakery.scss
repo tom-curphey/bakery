@@ -57,7 +57,11 @@ section.header {
           text-align: center;
 
           &:hover {
-            background-color: #e1f789;
+            background-color: #c5f117;
+            border: 1px solid #999;
+          }
+          &.success {
+            background-color: #c5f117;
             border: 1px solid #999;
           }
         }
