@@ -1,0 +1,84 @@
+section.header {
+  h1 {
+    text-align: center;
+    padding: 100px 15px 0px;
+    font-weight: 400;
+    font-size: 30px;
+    padding-bottom: 30px;
+  }
+  h3 {
+    color: #999;
+    text-align: center;
+    font-weight: 400;
+    font-size: 20px;
+  }
+  div.uploadBanner {
+    background-color: #f1f1f1;
+    ul {
+      display: grid;
+      grid-template-columns: auto;
+      grid-template-rows: auto auto;
+      /* height: 100px; */
+      margin: 60px auto;
+      grid-gap: 20px;
+      list-style-type: none;
+      padding: 30px 10px;
+      max-width: 700px;
+
+      @media (min-width: 600px) {
+        grid-template-columns: auto auto;
+        grid-template-rows: auto;
+      }
+
+      li {
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        span {
+          width: 322px;
+          margin: 8px auto 0px;
+          color: #d21903;
+        }
+
+        input[type='file'] {
+          display: none;
+        }
+
+        label {
+          border: 1px solid #ccc;
+          display: inline-block;
+          padding: 15px 20px;
+          cursor: pointer;
+          border-radius: 10px;
+          width: 280px;
+          text-align: center;
+
+          &:hover {
+            background-color: #e1f789;
+            border: 1px solid #999;
+          }
+        }
+      }
+    }
+  }
+  ul.shippingInfo {
+    width: 500px;
+    margin: 0px auto;
+    // padding: 20px;
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
+    li {
+      display: grid;
+      grid-template-columns: 50px 150px 100px 100px 80px;
+      padding: 10px;
+
+      &:first-child {
+        background-color: #f1f1f1;
+        border-radius: 10px 10px 0px 0px;
+      }
+    }
+  }
+}

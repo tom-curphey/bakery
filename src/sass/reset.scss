@@ -24,6 +24,7 @@ body {
   margin: 0;
   padding: 0;
   font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /**
@@ -64,7 +65,7 @@ hr {
  */
 
 pre {
-  font-family: monospace, monospace; /* 1 */
+  font-family: Arial, Helvetica, sans-serif; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -107,7 +108,7 @@ strong {
 code,
 kbd,
 samp {
-  font-family: monospace, monospace; /* 1 */
+  font-family: Arial, Helvetica, sans-serif; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -350,4 +351,24 @@ template {
 
 [hidden] {
   display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li,
+a,
+span {
+  font-size: 16px;
+  color: #000;
+  display: block;
+  text-decoration: none;
+  margin: 0px;
+  padding: 0px;
+  font-weight: 100;
 }
