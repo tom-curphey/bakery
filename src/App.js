@@ -76,11 +76,20 @@ class App extends Component {
       loading
     } = this.state;
 
+    console.log('hito', csvProductFile);
     if (!loading && prevState.csvProductFile !== csvProductFile) {
-      this.setState({
-        loading: true,
-        currentFile: 'product'
-      });
+      console.log('hit', csvProductFile);
+      if (csvProductFile === null) {
+        this.setState({
+          loading: false,
+          currentFile: ''
+        });
+      } else {
+        this.setState({
+          loading: true,
+          currentFile: 'product'
+        });
+      }
     }
     if (!loading && prevState.csvOrderFile !== csvOrderFile) {
       this.setState({
@@ -88,7 +97,9 @@ class App extends Component {
         currentFile: 'order'
       });
     }
-    if (prevState.currentFile !== currentFile) {
+    if (prevState.currentFile !== currentFile && currentFile !== '') {
+      console.log('Hit');
+
       this.importCSV();
     }
 
