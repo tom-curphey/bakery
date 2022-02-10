@@ -6,7 +6,7 @@
   "dependencies": {
     "gh-pages": "^2.0.1",
     "javascript-lp-solver": "^0.4.5",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "papaparse": "^5.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
